@@ -1,0 +1,69 @@
+{
+
+given: 'Deberíamos haber hecho más. No lo defiendo, sino que trato de explicarlo.',
+
+expected : {
+	"Sentences": [{
+			"SentenceNumber": 1,
+			"SentenceText": "Deberíamos haber hecho más",
+			"WordsCount": 4,
+			"Words": [{
+					"WordNumber": 1,
+					"WordText": "Deberíamos",
+					"LettersCount": 10
+				}, {
+					"WordNumber": 2,
+					"WordText": "haber",
+					"LettersCount": 5
+				}, {
+					"WordNumber": 3,
+					"WordText": "hecho",
+					"LettersCount": 5
+				}, {
+					"WordNumber": 4,
+					"WordText": "más",
+					"LettersCount": 3
+				}
+			]
+		}, {
+			"SentenceNumber": 2,
+			"SentenceText": " No lo defiendo, sino que trato de explicarlo",
+			"WordsCount": 9,
+			"Words": [{
+					"WordNumber": 1,
+					"WordText": "No",
+					"LettersCount": 2
+				}, {
+					"WordNumber": 2,
+					"WordText": "lo",
+					"LettersCount": 2
+				}, {
+					"WordNumber": 3,
+					"WordText": "defiendo,",
+					"LettersCount": 8
+				}, {
+					"WordNumber": 4,
+					"WordText": "sino",
+					"LettersCount": 4
+				}, {
+					"WordNumber": 5,
+					"WordText": "que",
+					"LettersCount": 3
+				}, {
+					"WordNumber": 6,
+					"WordText": "trato",
+					"LettersCount": 5
+				}, {
+					"WordNumber": 7,
+					"WordText": "de",
+					"LettersCount": 2
+				}, {
+					"WordNumber": 8,
+					"WordText": "explicarlo",
+					"LettersCount": 10
+				}
+			]
+		}
+	]
+  }
+}

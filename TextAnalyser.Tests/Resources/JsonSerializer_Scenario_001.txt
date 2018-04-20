@@ -1,0 +1,15 @@
+{
+  "sentenceCount": 1,
+  "wordBreakDown": [
+    {
+      "sentenceNumber": 1,
+      "wordCount": 1,
+      "lettersBreakDown": [
+        {
+          "wordNumber": 1,
+          "lettersCount": 3
+        }
+      ]
+    }
+  ]
+}

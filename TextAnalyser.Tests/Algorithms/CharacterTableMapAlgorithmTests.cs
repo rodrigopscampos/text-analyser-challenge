@@ -1,0 +1,33 @@
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using TextAnalyser.Algorithms;
+using TextAnalyser.Domain.Interfaces.Algorithms;
+
+namespace TextAnalyser.Tests.Algorithms
+{
+    [TestClass]
+    public class CharacterTableMapAlgorithmTests : GenericAlgorithmTest
+    {
+        CharacterTableMapAlgorithm _testingObject;
+
+        [TestInitialize]
+        public void Setup()
+        {
+            _testingObject = new CharacterTableMapAlgorithm();
+        }
+
+        [TestMethod]
+        public void CharacterTableMapAlgorithm_Scenario_001()
+          => RunScenario(AlgorithmsScenarios.Algorithm_Scenario_001);
+
+        [TestMethod]
+        public void CharacterTableMapAlgorithm_Scenario_002()
+         => RunScenario(AlgorithmsScenarios.Algorithm_Scenario_002);
+
+        [TestMethod]
+        public void CharacterTableMapAlgorithm_Scenario_003()
+         => RunScenario(AlgorithmsScenarios.Algorithm_Scenario_003);
+
+        protected override ITextAnalyserAlgorithms GetTestingObject() => _testingObject;
+        protected override bool ValidateText() => false;
+    }
+}
