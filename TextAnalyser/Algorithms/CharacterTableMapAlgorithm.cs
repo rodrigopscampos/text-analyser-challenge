@@ -110,7 +110,7 @@ namespace TextAnalyser.Algorithms
                     ProcessCharacter(c, next, lastCharacter);
                 }
             }
-
+            
             var sentenceBuilders = new Dictionary<int, SentenceBuilder>();
             foreach (var entry in _table)
             {
