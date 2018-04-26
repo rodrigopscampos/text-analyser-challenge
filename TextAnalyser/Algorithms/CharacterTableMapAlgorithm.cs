@@ -51,8 +51,6 @@ namespace TextAnalyser.Algorithms
             }
         }
 
-        char[] Pontuations = new[] { '!', '?', ',' };
-
         const char EndOfSentenceIdentifier = '.';
         const char EndOfWordIdentifier = ' ';
         const int BufferSize = 1024 * 1024 * 1; //1 MB
@@ -60,16 +58,14 @@ namespace TextAnalyser.Algorithms
         bool _endOfWord;
         bool _endOfSentence;
 
-        IntRef _sentenceCount = new IntRef(0);
         int _sentenceNumber = 1;
-        IntRef _wordsCount = new IntRef(1);
         int _wordNumber = 1;
         IntRef _lettersCount = new IntRef(0);
 
-        List<TableEntry> _table = new List<TableEntry>();
-
         char[] buffer = new char[BufferSize];
         int _countRead;
+
+        Dictionary<int, SentenceBuilder> _sentenceBuilders = new Dictionary<int, SentenceBuilder>();
 
 #if DEBUG
         //Just to help us to debug
@@ -110,19 +106,14 @@ namespace TextAnalyser.Algorithms
                     ProcessCharacter(c, next, lastCharacter);
                 }
             }
-            
-            var sentenceBuilders = new Dictionary<int, SentenceBuilder>();
-            foreach (var entry in _table)
-            {
-                if (!sentenceBuilders.ContainsKey(entry.SentenceNumber))
-                    sentenceBuilders.Add(entry.SentenceNumber, new SentenceBuilder(entry.SentenceNumber));
 
-                sentenceBuilders[entry.SentenceNumber].AddWord(entry.WordNumber, entry.LettersCount.Value);
-            }
+            var sentences = _sentenceBuilders.Values.Select(s => s.Build()).ToArray();
 
-            var sentences = sentenceBuilders.Values.Select(s => s.Build());
+            var result = new AlgorithmResult(sentences);
 
-            return new AlgorithmResult(sentences);
+            ResetCounters();
+
+            return result;
         }
 
         private void ProcessCharacter(char c, char next, bool lastCharacter)
@@ -136,11 +127,9 @@ namespace TextAnalyser.Algorithms
             {
                 _endOfSentence = true;
 
-                _table.Add(new TableEntry(_sentenceCount, _sentenceNumber, _wordsCount, _wordNumber, _lettersCount));
+                AddEntryOnSentenceBuilder();
 
-                _sentenceCount++;
                 _sentenceNumber++;
-                _wordsCount = new IntRef(1);
                 _lettersCount = new IntRef(0);
                 _wordNumber = 1;
                 _endOfWord = false;
@@ -149,9 +138,8 @@ namespace TextAnalyser.Algorithms
             {
                 _endOfWord = true;
 
-                _table.Add(new TableEntry(_sentenceCount, _sentenceNumber, _wordsCount, _wordNumber, _lettersCount));
+                AddEntryOnSentenceBuilder();
 
-                _wordsCount++;
                 _wordNumber++;
                 _lettersCount = new IntRef(0);
             }
@@ -160,7 +148,13 @@ namespace TextAnalyser.Algorithms
             {
                 var ImACommaInTheMiddleOfSomeWord = (c == ',' && next != ' '); //propably some decimal number
 
-                if (!Pontuations.Contains(c) || ImACommaInTheMiddleOfSomeWord)
+                //Sorry, but this boolean expression is much faster than the Contains method of a collection, even a HashSet
+                //var pontuations = new HashSet<char>(new[] { '!', '?', ',' });
+                //var ImAPontuationCharacter = pontuations.Contains(c);
+
+                var ImAPontuationCharacter = (c == '!' || c == '?' || c == ',');
+
+                if (!ImAPontuationCharacter || ImACommaInTheMiddleOfSomeWord)
                 {
                     _lettersCount++;
 
@@ -171,8 +165,35 @@ namespace TextAnalyser.Algorithms
 
             if (lastCharacter)
             {
-                _table.Add(new TableEntry(_sentenceCount, _sentenceNumber, _wordsCount, _wordNumber, _lettersCount));
+                AddEntryOnSentenceBuilder();
             }
+        }
+
+        private void AddEntryOnSentenceBuilder()
+        {
+            SentenceBuilder sb;
+            if (!_sentenceBuilders.TryGetValue(_sentenceNumber, out sb))
+            {
+                sb = new SentenceBuilder(_sentenceNumber);
+                _sentenceBuilders.Add(_sentenceNumber, sb);
+            }
+
+            sb.AddWord(_wordNumber, _lettersCount.Value);
+        }
+
+        private void ResetCounters()
+        {
+            _endOfWord = false;
+            _endOfSentence = false;
+
+            _sentenceNumber = 1;
+            _wordNumber = 1;
+            _lettersCount = new IntRef(0);
+
+            buffer = new char[BufferSize];
+            _countRead = 0;
+
+            _sentenceBuilders = new Dictionary<int, SentenceBuilder>();
         }
 
         public override string ToString() => nameof(CharacterTableMapAlgorithm);
