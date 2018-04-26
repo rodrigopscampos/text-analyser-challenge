@@ -110,5 +110,14 @@ namespace TextAnalyser.Tests.Algorithms {
                 return ResourceManager.GetString("Algorithm_Scenario_003", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string Algorithm_Scenario_004 {
+            get {
+                return ResourceManager.GetString("Algorithm_Scenario_004", resourceCulture);
+            }
+        }
     }
 }

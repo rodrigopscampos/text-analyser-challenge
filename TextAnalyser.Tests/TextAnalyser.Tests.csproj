@@ -135,6 +135,9 @@
   <ItemGroup>
     <None Include="Resources\Algorithm_Scenario_003.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Algorithm_Scenario_004.txt" />
+  </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

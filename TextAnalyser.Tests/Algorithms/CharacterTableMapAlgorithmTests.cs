@@ -27,6 +27,10 @@ namespace TextAnalyser.Tests.Algorithms
         public void CharacterTableMapAlgorithm_Scenario_003()
          => RunScenario(AlgorithmsScenarios.Algorithm_Scenario_003);
 
+        [TestMethod]
+        public void CharacterTableMapAlgorithm_Scenario_004()
+         => RunScenario(AlgorithmsScenarios.Algorithm_Scenario_004);
+
         protected override ITextAnalyserAlgorithms GetTestingObject() => _testingObject;
         protected override bool ValidateText() => false;
     }

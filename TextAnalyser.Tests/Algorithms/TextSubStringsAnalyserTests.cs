@@ -22,11 +22,15 @@ namespace TextAnalyser.Tests.Algorithms
 
         [TestMethod]
         public void TextSubStringAnalyser_Scenario_002()
-        => RunScenario(AlgorithmsScenarios.Algorithm_Scenario_002);
+            => RunScenario(AlgorithmsScenarios.Algorithm_Scenario_002);
 
         [TestMethod]
         public void TextSubStringAnalyser_Scenario_003()
-      => RunScenario(AlgorithmsScenarios.Algorithm_Scenario_003);
+            => RunScenario(AlgorithmsScenarios.Algorithm_Scenario_003);
+
+        [TestMethod]
+        public void TextSubStringAnalyser_Scenario_004()
+            => RunScenario(AlgorithmsScenarios.Algorithm_Scenario_004);
 
         protected override ITextAnalyserAlgorithms GetTestingObject() => _testingObject;
         protected override bool ValidateText() => true;
